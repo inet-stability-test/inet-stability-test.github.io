@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Свяжитесь с нами по вопросам работы сервиса проверки стабильности интернета. Форма обратной связи, email для предложений и технической поддержки.">
+    <meta name="keywords" content="контакты тест интернета, обратная связь, поддержка, связаться с разработчиками">
+    <title>Контакты - Связаться с нами | inet-stability-test.github.io</title>
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="inet-stability-test.github.io">
+    <link rel="canonical" href="https://inet-stability-test.github.io/contact/">
+    <meta property="og:title" content="inet-stability-test.github.io">
+    <meta property="og:description" content="Свяжитесь с командой разработчиков сервиса проверки стабильности интернета. Форма обратной связи и контактная информация.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://inet-stability-test.github.io/contact/">
+    <meta name="theme-color" content="#06b6d4">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
+        }
+        .glow-pulse {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 min-h-screen text-white">
+    <header class="bg-black/30 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-4 py-5">
+            <div class="text-3xl font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+                <a href="/" class="transition duration-300 bg-gradient-to-r from-cyan-300 via-blue-300 to-purple-300 bg-clip-text text-transparent hover:from-cyan-200 hover:via-blue-200 hover:to-purple-200">Тест стабильности интернета</a>
+            </div>
+            <p class="text-cyan-200/80 text-sm mt-1">Свяжитесь с нами</p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        <nav class="bg-slate-800/50 backdrop-blur rounded-xl p-3 mb-8 border border-white/10">
+            <div class="flex flex-wrap gap-2 text-sm">
+                <a href="/" class="text-cyan-400 hover:text-cyan-300 transition">Главная</a>
+                <span class="text-slate-500">/</span>
+                <span class="text-slate-300">Контакты</span>
+            </div>
+        </nav>
+
+        <div class="grid lg:grid-cols-2 gap-8 mb-8">
+            <!-- Форма обратной связи -->
+            <article class="bg-slate-800/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 p-8">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text mb-3">Форма обратной связи</h2>
+                    <p class="text-slate-300">Напишите нам, и мы обязательно ответим в ближайшее время</p>
+                </div>
+
+                <form action="https://formspree.io/f/xanpgrjw" method="POST" class="space-y-5" id="contactForm">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-cyan-300 mb-2">
+                            Ваше имя
+                        </label>
+                        <input 
+                            type="text" 
+                            id="name" 
+                            name="name" 
+                            required
+                            class="w-full bg-slate-700/50 border border-cyan-500/30 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/50 focus:outline-none transition"
+                            placeholder="Введите ваше имя"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-cyan-300 mb-2">
+                            Email <span class="text-red-400">*</span>
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            required
+                            class="w-full bg-slate-700/50 border border-cyan-500/30 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/50 focus:outline-none transition"
+                            placeholder="your@email.com"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="subject" class="block text-sm font-medium text-cyan-300 mb-2">
+                            Тема обращения
+                        </label>
+                        <select 
+                            id="subject" 
+                            name="subject"
+                            class="w-full bg-slate-700/50 border border-cyan-500/30 rounded-xl px-4 py-3 text-white focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/50 focus:outline-none transition"
+                        >
+                            <option value="general">Общий вопрос</option>
+                            <option value="technical">Техническая проблема</option>
+                            <option value="suggestion">Предложение</option>
+                            <option value="partnership">Сотрудничество</option>
+                            <option value="other">Другое</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-cyan-300 mb-2">
+                            Сообщение <span class="text-red-400">*</span>
+                        </label>
+                        <textarea 
+                            id="message" 
+                            name="message" 
+                            required
+                            rows="6"
+                            class="w-full bg-slate-700/50 border border-cyan-500/30 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/50 focus:outline-none transition resize-none"
+                            placeholder="Опишите ваш вопрос или предложение..."
+                        ></textarea>
+                    </div>
+
+                    <div id="formStatus" class="hidden"></div>
+
+                    <button 
+                        type="submit" 
+                        class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 px-6 py-4 rounded-xl font-bold text-lg transition shadow-lg hover:shadow-cyan-500/50 flex items-center justify-center gap-2"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        Отправить сообщение
+                    </button>
+                </form>
+            </article>
+
+            <!-- Контактная информация -->
+            <div class="space-y-6">
+                <article class="bg-slate-800/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 p-8">
+                    <h2 class="text-2xl font-bold text-cyan-300 mb-6 flex items-center gap-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Контактная информация
+                    </h2>
+
+                    <div class="space-y-5">
+                        <div class="flex items-start gap-4 p-4 bg-slate-700/30 rounded-xl border border-cyan-500/20 hover:border-cyan-500/50 transition">
+                            <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-cyan-300 mb-1">Email</h3>
+                                <a href="mailto:zenzvezdy@yandex.net" class="text-slate-300 hover:text-cyan-400 transition">
+                                    zenzvezdy@yandex.net
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 bg-slate-700/30 rounded-xl border border-purple-500/20 hover:border-purple-500/50 transition">
+                            <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-purple-300 mb-1">Время ответа</h3>
+                                <p class="text-slate-300">Обычно отвечаем в течение 24 часов в рабочие дни</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 bg-slate-700/30 rounded-xl border border-blue-500/20 hover:border-blue-500/50 transition">
+                            <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-blue-300 mb-1">Сайт</h3>
+                                <a href="/" class="text-slate-300 hover:text-cyan-400 transition">
+                                    inet-stability-test.github.io
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-gradient-to-br from-slate-800/90 to-blue-900/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 p-8">
+                    <h2 class="text-2xl font-bold text-cyan-300 mb-4">О чем можно писать?</h2>
+                    <div class="space-y-3 text-slate-300 text-sm">
+                        <div class="flex items-start gap-2">
+                            <span class="text-cyan-400 mt-1">→</span>
+                            <span>Технические проблемы при <a href="/" class="text-cyan-400 hover:text-cyan-300 underline transition">проверки стабильности интернета</a></span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-cyan-400 mt-1">→</span>
+                            <span>Предложения по улучшению функционала</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-cyan-400 mt-1">→</span>
+                            <span>Вопросы об интерпретации результатов</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-cyan-400 mt-1">→</span>
+                            <span>Предложения о сотрудничестве</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-cyan-400 mt-1">→</span>
+                            <span>Любые другие вопросы и идеи</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="bg-gradient-to-r from-yellow-900/30 to-orange-900/30 border-l-4 border-yellow-500 rounded-r-xl p-6">
+                    <div class="flex items-start gap-3">
+                        <svg class="w-6 h-6 text-yellow-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div>
+                            <h3 class="font-bold text-yellow-300 mb-2">Важно</h3>
+                            <p class="text-sm text-slate-300">
+                                Мы не предоставляем техническую поддержку по вопросам работы вашего интернет-провайдера. Если тест показывает проблемы со стабильностью, обратитесь к своему провайдеру с конкретными результатами диагностики.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+
+        <!-- FAQ секция -->
+        <article class="bg-slate-800/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 p-8">
+            <h2 class="text-2xl font-bold text-cyan-300 mb-6">Частые вопросы</h2>
+            <div class="space-y-4">
+                <div class="bg-slate-700/30 rounded-xl p-5 border border-white/10">
+                    <h3 class="font-bold text-cyan-300 mb-2 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Как быстро вы отвечаете?
+                    </h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Мы стараемся отвечать на все письма в течение 24 часов в рабочие дни. В выходные ответ может занять немного больше времени.
+                    </p>
+                </div>
+
+                <div class="bg-slate-700/30 rounded-xl p-5 border border-white/10">
+                    <h3 class="font-bold text-cyan-300 mb-2 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                        Безопасна ли форма обратной связи?
+                    </h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Да, форма использует защищенное соединение HTTPS. Мы не передаем ваши данные третьим лицам и используем их только для ответа на ваше обращение.
+                    </p>
+                </div>
+
+                <div class="bg-slate-700/30 rounded-xl p-5 border border-white/10">
+                    <h3 class="font-bold text-cyan-300 mb-2 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Могу ли я прикрепить файлы?
+                    </h3>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        Если вам нужно отправить скриншоты результатов теста или другие файлы, пожалуйста, напишите на email напрямую: zenzvezdy@yandex.net
+                    </p>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer class="bg-black/50 backdrop-blur-md border-t border-white/10 mt-16">
+        <div class="max-w-6xl mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+                <div>
+                    <div class="text-cyan-300 font-bold mb-3">О проекте</div>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Профессиональный инструмент диагностики качества интернет-канала, разработанный на базе многолетнего опыта работы с сетевыми технологиями.
+                    </p>
+                </div>
+                <div>
+                    <div class="text-cyan-300 font-bold mb-3">Навигация</div>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="/about/" class="hover:text-cyan-300 transition">О сервисе</a></li>
+                        <li><a href="/contact/" class="hover:text-cyan-300 transition">Контакты</a></li>
+                        <li><a href="/privacy/" class="hover:text-cyan-300 transition">Конфиденциальность</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="text-cyan-300 font-bold mb-3">Обратная связь</div>
+                    <p class="text-sm text-slate-400 mb-2">Email: zenzvezdy@yandex.net</p>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-6 text-sm text-center text-slate-400">
+                <p>&copy; 2025 inet-stability-test.github.io</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const form = document.getElementById('contactForm');
+        const formStatus = document.getElementById('formStatus');
+
+        form.addEventListener('submit', async function(e) {
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg> Отправка...';
+        });
+
+        form.addEventListener('submit', async function(e) {
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: new FormData(form),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            const submitBtn = form.querySelector('button[type="submit"]');
+
+            if (response.ok) {
+                formStatus.className = 'fade-in bg-emerald-500/20 border border-emerald-500 rounded-xl p-4 text-emerald-300';
+                formStatus.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Спасибо! Ваше сообщение успешно отправлено. Мы свяжемся с вами в ближайшее время.</span>
+                    </div>
+                `;
+                formStatus.classList.remove('hidden');
+                form.reset();
+            } else {
+                formStatus.className = 'fade-in bg-red-500/20 border border-red-500 rounded-xl p-4 text-red-300';
+                formStatus.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>Произошла ошибка при отправке. Пожалуйста, попробуйте еще раз или напишите на email.</span>
+                    </div>
+                `;
+                formStatus.classList.remove('hidden');
+            }
+
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = `
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                Отправить сообщение
+            `;
+
+            setTimeout(() => {
+                formStatus.classList.add('hidden');
+            }, 5000);
+        });
+    </script>
+	<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=104814508', 'ym');
+
+    ym(104814508, 'init', {ssr:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/104814508" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</body>
+</html>
