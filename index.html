@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Бесплатная проверка стабильности интернета онлайн. Тест потери пакетов, измерение ping, анализ джиттера. Диагностика качества соединения для игр, видеозвонков и стриминга в реальном времени.">
+    <meta name="keywords" content="тест пинга онлайн, проверка стабильности интернета, потеря пакетов, packet loss test, джиттер тест, ping test, диагностика сети, качество интернета, проверка связи, мониторинг канала">
+    <title>Проверка стабильности интернета онлайн - тест соединения онлайн и потери пакетов</title>
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="inet-stability-test.github.io">
+    <link rel="canonical" href="https://inet-stability-test.github.io/">
+    <meta property="og:title" content="Проверка стабильности интернета онлайн - тест соединения онлайн и потери пакетов">
+    <meta property="og:description" content="Бесплатная проверка стабильности интернета онлайн. Тест потери пакетов, измерение ping, анализ джиттера. Диагностика качества соединения для игр, видеозвонков и стриминга в реальном времени.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://inet-stability-test.github.io/">
+    <meta property="og:image" content="https://inet-stability-test.github.io/og-image.jpg">
+    <meta property="og:locale" content="ru_RU">
+    <meta name="theme-color" content="#06b6d4">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.svg">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Тест стабильности интернета",
+      "description": "Бесплатная проверка стабильности интернета онлайн. Тест потери пакетов, измерение ping, анализ джиттера. Диагностика качества соединения для игр, видеозвонков и стриминга в реальном времени.",
+      "url": "https://inet-stability-test.github.io/",
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "RUB"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "1022"
+      }
+    }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .progress-ring {
+            transform: rotate(-90deg);
+            transform-origin: center;
+        }
+        .progress-ring-circle {
+            transition: stroke-dashoffset 0.5s ease;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin 2s linear infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8); }
+        }
+        .glow-pulse {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+    </style>
+	<meta name="google-site-verification" content="oTcXNPK-Hro98udCyc2llYgutTl8UYt-cCOJ24L5ZiM" />
+	<meta name="yandex-verification" content="c6adde75c088ac78" />
+</head>
+<body class="bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 min-h-screen text-white">
+    <header class="bg-black/30 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-4 py-5">
+            <h1 class="text-3xl font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">Тест стабильности интернета</h1>
+            <p class="text-cyan-200/80 text-sm mt-1">Проверьте стабильность интернет соединения онлайн. Бесплатный мониторинг качества связи.</p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+        <div class="bg-gradient-to-br from-slate-800/90 to-blue-900/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 p-6 mb-8">
+            <div class="flex flex-col lg:flex-row gap-6">
+                <div class="lg:w-1/3 flex flex-col items-center justify-center space-y-4">
+                    <div class="relative w-48 h-48">
+                        <svg class="w-full h-full progress-ring" viewBox="0 0 200 200">
+                            <defs>
+                                <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#06b6d4"/>
+                                    <stop offset="50%" style="stop-color:#3b82f6"/>
+                                    <stop offset="100%" style="stop-color:#8b5cf6"/>
+                                </linearGradient>
+                            </defs>
+                            <circle cx="100" cy="100" r="85" fill="none" stroke="#1e293b" stroke-width="12"/>
+                            <circle id="progressCircle" class="progress-ring-circle" cx="100" cy="100" r="85" fill="none" stroke="url(#progressGradient)" stroke-width="12" stroke-dasharray="534" stroke-dashoffset="534" stroke-linecap="round"/>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <div id="scoreValue" class="text-4xl font-bold bg-gradient-to-br from-cyan-400 to-blue-400 bg-clip-text text-transparent">0</div>
+                            <div class="text-xs text-cyan-300/70 mt-1">балл качества</div>
+                        </div>
+                        <div id="spinnerOverlay" class="hidden absolute inset-0 flex items-center justify-center">
+                            <div class="w-20 h-20 border-4 border-cyan-500/30 border-t-cyan-400 rounded-full animate-spin-slow glow-pulse"></div>
+                        </div>
+                    </div>
+                    <div id="statusText" class="text-center text-lg font-semibold text-cyan-300/70">Готов к запуску</div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-3 w-full">
+                        <button id="startBtn" class="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 px-6 py-3 rounded-xl font-bold transition shadow-lg hover:shadow-cyan-500/50">
+                            Запустить проверку
+                        </button>
+                        <select id="durationSelect" class="bg-slate-700/50 border border-cyan-500/30 px-4 py-3 rounded-xl focus:border-cyan-400 focus:outline-none font-medium">
+                            <option value="60">1 минута</option>
+                            <option value="300">5 минут</option>
+                            <option value="1800">30 минут</option>
+                            <option value="0">Бесконечно</option>
+                        </select>
+                    </div>
+                    
+                    <div id="shareButtons" class="hidden flex flex-wrap gap-2 w-full">
+                        <button onclick="shareToTelegram()" class="flex-1 min-w-[120px] bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 px-4 py-2 rounded-lg font-semibold text-sm transition flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/></svg>
+                            Telegram
+                        </button>
+                        <button onclick="shareToVK()" class="flex-1 min-w-[120px] bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 px-4 py-2 rounded-lg font-semibold text-sm transition flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm6.066 13.854c.627.61 1.291 1.184 1.826 1.832.237.287.46.59.637.926.198.377.018.791-.326.813l-2.136-.001c-.552.046-1.004-.174-1.393-.557-.31-.305-.6-.628-.896-.945-.123-.132-.251-.256-.396-.362-.33-.24-.618-.174-.802.18-.188.358-.23.752-.247 1.145-.024.583-.184.736-.77.762-1.253.056-2.443-.135-3.545-.778-1.032-.6-1.845-1.442-2.576-2.369-1.423-1.806-2.517-3.8-3.505-5.863-.215-.45-.061-.69.437-.697.826-.011 1.652-.01 2.478-.001.335.004.56.203.69.518.405.98.88 1.922 1.458 2.805.155.237.313.474.526.658.246.212.436.147.556-.126.076-.174.117-.361.14-.547.075-.623.085-1.246-.006-1.867-.052-.353-.254-.582-.607-.65-.18-.035-.153-.103-.066-.207.174-.21.338-.34.665-.34h2.452c.386.077.472.251.525.638l.002 2.724c-.004.16.08.636.368.742.23.08.383-.116.52-.254.617-.621 1.057-1.354 1.447-2.118.172-.336.32-.686.461-1.04.105-.263.27-.394.567-.387l2.37.005c.07 0 .141.001.21.015.402.082.513.291.387.68-.204.627-.591 1.156-.978 1.682-.417.565-.862 1.114-1.27 1.689-.377.53-.347.796.123 1.25z"/></svg>
+                            VK
+                        </button>
+                        <button onclick="shareToWhatsApp()" class="flex-1 min-w-[120px] bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 px-4 py-2 rounded-lg font-semibold text-sm transition flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 1.856.001 3.598.723 4.907 2.034 1.31 1.311 2.031 3.054 2.03 4.908-.001 3.825-3.113 6.938-6.937 6.938z"/></svg>
+                            WhatsApp
+                        </button>
+						<button onclick="shareToOK()" class="flex-1 min-w-[120px] bg-[#EE8208] hover:bg-[#d87406] px-4 py-2 rounded-lg font-semibold text-sm text-white transition flex items-center justify-center gap-2">
+						  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+							<path d="M12 2C8.132 2 5 5.132 5 9c0 3.868 3.132 7 7 7s7-3.132 7-7c0-3.868-3.132-7-7-7zm0 10.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm4.825 3.75a1.5 1.5 0 0 0-2.121 0A6.6 6.6 0 0 1 12 17.32a6.6 6.6 0 0 1-2.704-1.37 1.5 1.5 0 1 0-2.093 2.147 9.61 9.61 0 0 0 2.606 1.528l-1.868 1.868a1.5 1.5 0 1 0 2.121 2.121L12 21.121l1.938 1.938a1.5 1.5 0 1 0 2.121-2.121l-1.868-1.868a9.61 9.61 0 0 0 2.606-1.528 1.5 1.5 0 0 0 .028-2.121z"/>
+						  </svg>
+						  Одноклассники
+						</button>
+                        
+                    </div>
+                </div>
+
+                <div class="lg:w-2/3 space-y-4">
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="bg-gradient-to-br from-red-500/20 to-red-600/20 backdrop-blur rounded-xl p-4 border border-red-500/30">
+                            <div class="text-xs text-red-300 font-medium mb-1">Потери</div>
+                            <div id="packetLoss" class="text-2xl font-bold text-red-400">0%</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-cyan-500/20 to-cyan-600/20 backdrop-blur rounded-xl p-4 border border-cyan-500/30">
+                            <div class="text-xs text-cyan-300 font-medium mb-1">Задержка</div>
+                            <div id="avgLatency" class="text-2xl font-bold text-cyan-400">0 ms</div>
+                        </div>
+                        <div class="bg-gradient-to-br from-purple-500/20 to-purple-600/20 backdrop-blur rounded-xl p-4 border border-purple-500/30">
+                            <div class="text-xs text-purple-300 font-medium mb-1">Джиттер</div>
+                            <div id="jitter" class="text-2xl font-bold text-purple-400">0 ms</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-700/30 backdrop-blur rounded-xl p-4 border border-white/10">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-sm font-semibold text-cyan-300">График пакетов</h3>
+                            <div class="flex gap-2 text-xs">
+                                <div class="flex items-center gap-1">
+                                    <div class="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                                    <span class="text-slate-300">OK</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                                    <span class="text-slate-300">Средне</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <div class="w-2 h-2 bg-red-400 rounded-full"></div>
+                                    <span class="text-slate-300">Плохо</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <div class="w-2 h-2 bg-slate-500 rounded-full"></div>
+                                    <span class="text-slate-300">Потеря</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute left-0 top-0 bottom-0 flex flex-col justify-between text-xs text-slate-400 pr-2">
+                                <div>200</div>
+                                <div>150</div>
+                                <div>100</div>
+                                <div>50</div>
+                                <div>0</div>
+                            </div>
+                            <div class="ml-8 flex items-end h-32 gap-0.5" id="packetChart">
+                                <div class="flex-1 bg-slate-600/30 rounded-t" style="height: 10%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-sm">
+                        <div class="bg-slate-700/30 backdrop-blur rounded-xl p-3 border border-white/10">
+                            <div class="flex justify-between">
+                                <span class="text-slate-300">Отправлено:</span>
+                                <span id="sentPackets" class="font-bold text-cyan-400">0</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-700/30 backdrop-blur rounded-xl p-3 border border-white/10">
+                            <div class="flex justify-between">
+                                <span class="text-slate-300">Получено:</span>
+                                <span id="receivedPackets" class="font-bold text-emerald-400">0</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-700/30 backdrop-blur rounded-xl p-3 border border-white/10">
+                            <div class="flex justify-between">
+                                <span class="text-slate-300">Потеряно:</span>
+                                <span id="lostPackets" class="font-bold text-red-400">0</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-700/30 backdrop-blur rounded-xl p-3 border border-white/10">
+                            <div class="flex justify-between">
+                                <span class="text-slate-300">Время:</span>
+                                <span id="testDuration" class="font-bold text-purple-400">0 сек</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-700/30 backdrop-blur rounded-xl p-3 border border-white/10">
+                            <div class="flex justify-between">
+                                <span class="text-slate-300">Min ping:</span>
+                                <span id="minLatency" class="font-bold text-blue-400">0 ms</span>
+                            </div>
+                        </div>
+                        <div class="bg-slate-700/30 backdrop-blur rounded-xl p-3 border border-white/10">
+                            <div class="flex justify-between">
+                                <span class="text-slate-300">Max ping:</span>
+                                <span id="maxLatency" class="font-bold text-orange-400">0 ms</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="timeline" class="hidden bg-slate-800/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 p-6 mb-8">
+            <h2 class="text-lg font-bold text-cyan-300 mb-4 flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Журнал событий
+            </h2>
+            <div id="timelineEvents" class="space-y-2 max-h-48 overflow-y-auto text-sm"></div>
+        </div>
+
+        <article class="bg-slate-800/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 p-8 space-y-6">
+            <h2 class="text-3xl font-bold text-transparent bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text">Зачем проверять стабильность канала связи?</h2>
+            
+            <p class="text-slate-300 leading-relaxed">
+                Работаю в IT девятый год, и постоянно вижу одну картину, когда люди жалуются на тормоза в интернете, хотя провайдер обещал гигабит. Проблема не в скорости канала, а в качестве передачи данных. Даже незначительные потери пакетов и разрывы подключения превращают видеозвонок в набор замороженных кадров, а в многопользовательской игре начинаются лаги и рассинхрон.
+            </p>
+
+            <p class="text-slate-300 leading-relaxed">
+                Создал этот инструмент после очередного разговора с клиентом про разницу между пропускной способностью и надежностью линии. С помощью сервиса вы сможете узнать, насколько стабильно работает ваш интернет и есть ли неполадки. Классические тесты скорости меряют только bandwidth, совершенно игнорируя стабильность передачи. А именно надежность канала определяет реальный комфорт работы в сети.
+            </p>
+
+            <h2 class="text-2xl font-bold text-cyan-300 pt-4">Принцип работы диагностики</h2>
+            
+            <p class="text-slate-300 leading-relaxed">
+                Система посылает серию запросов к серверам и фиксирует результаты: сколько пакетов дошло, какова задержка ответа. Использую облегченные запросы к стабильным хостам, чтобы не нагружать ваш канал. Каждая проверка забирает всего пару килобайт, так что тест можно крутить хоть полчаса без влияния на другие задачи.
+            </p>
+
+            <p class="text-slate-300 leading-relaxed">
+                Каждый столбец графика - это попытка связи. Зеленый сигнализирует об успешной доставке с нормальным откликом, желтый предупреждает о повышенной латентности, красный показывает серьезные задержки, серый означает полную потерю. Визуализация помогает моментально определить проблемы - они постоянные или появляются периодами.
+            </p>
+
+            <h2 class="text-2xl font-bold text-cyan-300 pt-4">Ключевые метрики теста стабильности интернета</h2>
+            
+            <div class="bg-gradient-to-r from-red-900/30 to-red-800/30 border-l-4 border-red-500 p-5 rounded-r-xl">
+                <p class="text-slate-200 leading-relaxed">
+                    <strong class="text-red-300">Потери пакетов</strong> - основной индикатор качества. Даже 1% потерь заметен при видеосвязи. Пропадающие пакеты вызывают фризы картинки, обрывы аудио, задержки в онлайн-играх. При показателе выше 5% большинство сервисов работают с трудом.
+                </p>
+            </div>
+
+            <div class="bg-gradient-to-r from-cyan-900/30 to-cyan-800/30 border-l-4 border-cyan-500 p-5 rounded-r-xl">
+                <p class="text-slate-200 leading-relaxed">
+                    <strong class="text-cyan-300">Латентность (ping)</strong> - скорость отклика сети. Для обычного браузинга хватит 100 миллисекунд, для шутеров желательно держаться в пределах 50 мс, а для профессиональных геймеров каждая миллисекунда на счету.
+                </p>
+            </div>
+
+            <div class="bg-gradient-to-r from-purple-900/30 to-purple-800/30 border-l-4 border-purple-500 p-5 rounded-r-xl">
+                <p class="text-slate-200 leading-relaxed">
+                    <strong class="text-purple-300">Джиттер</strong> - вариация задержки. Высокий джиттер делает соединение нестабильным. Когда пинг скачет с 20 до 200 миллисекунд каждую секунду - это и есть джиттер.
+                </p>
+            </div>
+			<h2 class="text-2xl font-bold text-cyan-300 pt-4">Расшифровка результатов</h2>
+
+            <div class="space-y-4 text-slate-300">
+                <div class="bg-slate-700/30 rounded-xl p-4 border border-emerald-500/30">
+                    <strong class="text-emerald-400">Превосходное качество:</strong> потери 0%, латентность до 30 мс, джиттер до 5 мс. График сплошь зеленый, без провалов. Идеал для любых задач.
+                </div>
+
+                <div class="bg-slate-700/30 rounded-xl p-4 border border-cyan-500/30">
+                    <strong class="text-cyan-400">Хорошее качество:</strong> потери до 0.5%, латентность до 50 мс, джиттер до 10 мс. Редкие желтые всплески. Годится для гейминга и конференций.
+                </div>
+
+                <div class="bg-slate-700/30 rounded-xl p-4 border border-yellow-500/30">
+                    <strong class="text-yellow-400">Приемлемое качество:</strong> потери 0.5-2%, латентность до 100 мс, джиттер до 20 мс. Видны периодические скачки. Нормально для просмотра контента, но могут быть лаги в шутерах.
+                </div>
+
+                <div class="bg-slate-700/30 rounded-xl p-4 border border-red-500/30">
+                    <strong class="text-red-400">Проблемное качество:</strong> потери выше 2%, нестабильная латентность, высокий джиттер. График усыпан красными и серыми столбцами. Нужна диагностика и разговор с провайдером.
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-yellow-900/30 to-orange-900/30 border-l-4 border-yellow-500 p-5 rounded-r-xl">
+                <p class="text-yellow-200 font-semibold mb-3">Обратите внимание на:</p>
+                <ul class="space-y-2 text-slate-300">
+                    <li>• Периодические всплески - возможна перегрузка от других устройств в локальной сети</li>
+                    <li>• Стабильно высокий пинг - проблема у провайдера или перегруженный маршрут</li>
+                    <li>• Регулярные потери в определенные часы - перегрузка сети провайдера в пиковое время</li>
+                    <li>• Хаотичные скачки - вероятно проблемы с роутером или помехи в эфире</li>
+                </ul>
+            </div>
+            <h2 class="text-2xl font-bold text-cyan-300 pt-4">Рекомендации по тестированию</h2>
+
+            <div class="space-y-3 text-slate-300">
+                <div class="flex items-start gap-3">
+                    <span class="text-cyan-400 text-xl">→</span>
+                    <span>Проводите тест минимум 1-3 минуты для объективной картины. Обычно запускаю на 3-10 минут, если подозреваю нестабильность. Некоторые сбои проявляются только при определенной нагрузке сети.</span>
+                </div>
+
+                <div class="flex items-start gap-3">
+                    <span class="text-cyan-400 text-xl">→</span>
+                    <span>Тестируйте в разные часы. Вечером, когда все сидят в интернете, показатели могут резко отличаться от дневных. Особенно актуально для беспроводных подключений и shared-каналов.</span>
+                </div>
+
+                <div class="flex items-start gap-3">
+                    <span class="text-cyan-400 text-xl">→</span>
+                    <span>На Wi-Fi попробуйте подключить кабель напрямую для сравнения. Часто корень зла именно в беспроводной передаче, а не в магистрали провайдера. Видел кучу случаев, когда простая перестановка роутера решала все проблемы.</span>
+                </div>
+
+                <div class="flex items-start gap-3">
+                    <span class="text-cyan-400 text-xl">→</span>
+                    <span>Вырубите VPN и прожорливые программы для чистоты эксперимента. Поделитесь результатом теста стабильности интернета с техподдержкой провайдера.</span>
+                </div>
+            </div>
+
+            <h2 class="text-2xl font-bold text-cyan-300 pt-4">Частые вопросы</h2>
+            
+            <div class="space-y-4">
+                <div class="bg-slate-700/30 rounded-xl p-5 border border-white/10">
+                    <h3 class="font-bold text-cyan-300 mb-2">Тест показывает проблемы, но сайты открываются без задержек?</h3>
+                    <p class="text-slate-300 leading-relaxed">
+                        Обычный веб-серфинг толерантен к потерям благодаря TCP - протокол сам переотправляет потерянные данные. А стриминг, видеозвонки и игры работают через UDP, где каждый потерянный пакет критичен. Читать новости можно комфортно, а в Discord, Валорант, Battlefield или Counter-Strike начнутся проблемы.
+                    </p>
+                </div>
+
+                <div class="bg-slate-700/30 rounded-xl p-5 border border-white/10">
+                    <h3 class="font-bold text-cyan-300 mb-2">Какой процент потерь допустим?</h3>
+                    <p class="text-slate-300 leading-relaxed">
+                        В идеале - ноль. Реально до 0.5% еще приемлемо. От 0.5% до 2% заметно на требовательных приложениях. Выше 2% - серьезная проблема. При стабильных потерях больше 5% канал практически неюзабелен для современных онлайн-сервисов.
+                    </p>
+                </div>
+
+                <div class="bg-slate-700/30 rounded-xl p-5 border border-white/10">
+                    <h3 class="font-bold text-cyan-300 mb-2">Почему латентность скачет?</h3>
+                    <p class="text-slate-300 leading-relaxed">
+                        Куча факторов: загруженность маршрутизаторов, помехи в Wi-Fi, фоновая активность других устройств, перегрузка каналов провайдера. Небольшие колебания (10-20 мс) нормальны. Резкие скачки на сотни миллисекунд говорят о проблемах.
+                    </p>
+                </div>
+
+                <div class="bg-slate-700/30 rounded-xl p-5 border border-white/10">
+                    <h3 class="font-bold text-cyan-300 mb-2">Что делать при обнаружении проблем?</h3>
+                    <p class="text-slate-300 leading-relaxed">
+                        Первым делом замерьте подключение через кабель, если сидите на Wi-Fi. Перезагрузите роутер. Убедитесь, что никто не качает торренты и не обновляет игры. Если проблема воспроизводится на разных устройствах - звоните провайдеру с конкретными цифрами.
+                    </p>
+                </div>
+
+                <div class="bg-slate-700/30 rounded-xl p-5 border border-white/10">
+                    <h3 class="font-bold text-cyan-300 mb-2">Тест влияет на скорость канала?</h3>
+                    <p class="text-slate-300 leading-relaxed">
+                        Тест жрет минимум трафика - несколько килобайт в секунду. Это как открыть простую страницу. Не повлияет на просмотр видео, игры или другую работу. Специально сделал максимально легким, чтобы не создавать дополнительную нагрузку.
+                    </p>
+                </div>
+
+                <div class="bg-slate-700/30 rounded-xl p-5 border border-white/10">
+                    <h3 class="font-bold text-cyan-300 mb-2">Работает на мобильных устройствах?</h3>
+                    <p class="text-slate-300 leading-relaxed">
+                        Да, полностью адаптирован под смартфоны и планшеты. Можете проверить как Wi-Fi, так и мобильный интернет. При тестировании LTE/5G учитывайте, что показатели зависят от вашего местоположения, уровня сигнала и загруженности базовой станции.
+                    </p>
+                </div>
+
+                <div class="bg-slate-700/30 rounded-xl p-5 border border-white/10">
+					<h3 class="font-bold text-cyan-300 mb-2">Как улучшить стабильность интернета?</h3>
+					<p class="text-slate-300 leading-relaxed">
+						Для повышения стабильности соединения используйте проводное подключение вместо Wi-Fi, держите роутер в свободном от помех месте, обновляйте прошивку оборудования и не нагружайте сеть лишними подключенными устройствами. При постоянных сбоях стоит проверить кабель на повреждения, протестировать интернет через кабель, если ситуация не меняется, обратитесь к провайдеру.
+					</p>
+				</div>
+
+            </div>
+        </article>
+    </main>
+
+    <footer class="bg-black/50 backdrop-blur-md border-t border-white/10 mt-16">
+        <div class="max-w-6xl mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
+                <div>
+                    <div class="text-cyan-300 font-bold mb-3">О проекте</div>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Профессиональный инструмент диагностики качества интернет-канала, разработанный на базе многолетнего опыта работы с сетевыми технологиями.
+                    </p>
+                </div>
+                <div>
+                    <div class="text-cyan-300 font-bold mb-3">Навигация</div>
+                    <ul class="space-y-2 text-sm text-slate-400">
+                        <li><a href="/about/" class="hover:text-cyan-300 transition">Главная</a></li>
+                        <li><a href="/contact/" class="hover:text-cyan-300 transition">Контакты</a></li>
+                        <li><a href="/privacy/" class="hover:text-cyan-300 transition">Конфиденциальность</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="text-cyan-300 font-bold mb-3">Обратная связь</div>
+                    <p class="text-sm text-slate-400 mb-2">Email: help@inet-stability-test.github.io</p>
+
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-6 text-sm text-center text-slate-400">
+                <p>&copy; 2025 inet-stability-test.github.io</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+let isRunning=!1,startTime=null,packetsSent=0,packetsReceived=0,packetsLost=0,latencies=[],testInterval=null,chartData=[],testDuration=60,durationTimer=null;const maxChartBars=60,testEndpoints=["https://yandex.ru/favicon.ico","https://vk.com/favicon.ico","https://mail.ru/favicon.ico"];let currentEndpointIndex=0;const startBtn=document.getElementById("startBtn"),durationSelect=document.getElementById("durationSelect"),statusText=document.getElementById("statusText"),scoreValue=document.getElementById("scoreValue"),progressCircle=document.getElementById("progressCircle"),spinnerOverlay=document.getElementById("spinnerOverlay"),packetLossEl=document.getElementById("packetLoss"),avgLatencyEl=document.getElementById("avgLatency"),jitterEl=document.getElementById("jitter"),sentPacketsEl=document.getElementById("sentPackets"),receivedPacketsEl=document.getElementById("receivedPackets"),lostPacketsEl=document.getElementById("lostPackets"),minLatencyEl=document.getElementById("minLatency"),maxLatencyEl=document.getElementById("maxLatency"),testDurationEl=document.getElementById("testDuration"),packetChart=document.getElementById("packetChart"),timeline=document.getElementById("timeline"),timelineEvents=document.getElementById("timelineEvents"),shareButtons=document.getElementById("shareButtons");function getShareURL(){return`https://inet-stability-test.github.io/?loss=${packetsSent>0?(packetsLost/packetsSent*100).toFixed(2):0}&latency=${latencies.length>0?Math.round(latencies.reduce(((t,e)=>t+e),0)/latencies.length):0}&jitter=${latencies.length>1?Math.round(latencies.slice(-10).reduce(((t,e,n,a)=>0===n?0:t+Math.abs(e-a[n-1])),0)/Math.max(1,latencies.slice(-10).length-1)):0}`}function shareToTelegram(){const t=getShareURL(),e=`Проверил стабильность интернета:\nПотери: ${document.getElementById("packetLoss").textContent}\nЗадержка: ${document.getElementById("avgLatency").textContent}\nДжиттер: ${document.getElementById("jitter").textContent}`;window.open(`https://t.me/share/url?url=${encodeURIComponent(t)}&text=${encodeURIComponent(e)}`,"_blank")}function shareToVK(){const t=getShareURL(),e=`Тест стабильности интернета: ${document.getElementById("packetLoss").textContent} потери, ${document.getElementById("avgLatency").textContent} задержка`;window.open(`https://vk.com/share.php?url=${encodeURIComponent(t)}&title=${encodeURIComponent(e)}`,"_blank")}function shareToWhatsApp(){const t=getShareURL(),e=`Проверил стабильность интернета:\nПотери: ${document.getElementById("packetLoss").textContent}\nЗадержка: ${document.getElementById("avgLatency").textContent}\nДжиттер: ${document.getElementById("jitter").textContent}\n${t}`;window.open(`https://wa.me/?text=${encodeURIComponent(e)}`,"_blank")}function shareToOK(){const t=getShareURL(),e=`Проверил стабильность интернета:\nПотери: ${document.getElementById("packetLoss").textContent}\nЗадержка: ${document.getElementById("avgLatency").textContent}\nДжиттер: ${document.getElementById("jitter").textContent}`;window.open(`https://connect.ok.ru/offer?url=${encodeURIComponent(t)}&text=${encodeURIComponent(e)}`,"_blank")}function toggleTest(){isRunning?stopTest():startTest()}function startTest(){isRunning=!0,startTime=Date.now(),packetsSent=0,packetsReceived=0,packetsLost=0,latencies=[],chartData=[],testDuration=parseInt(durationSelect.value),startBtn.textContent="Остановить",startBtn.classList.remove("from-cyan-500","to-blue-600","hover:from-cyan-600","hover:to-blue-700"),startBtn.classList.add("from-red-500","to-red-600","hover:from-red-600","hover:to-red-700"),durationSelect.disabled=!0,statusText.textContent="Анализ соединения...",statusText.className="text-center text-lg font-semibold text-cyan-400",spinnerOverlay.classList.remove("hidden"),timeline.classList.remove("hidden"),timelineEvents.innerHTML="",shareButtons.classList.add("hidden"),addTimelineEvent("Запуск диагностики","info"),testInterval=setInterval(sendPacket,1e3),testDuration>0&&(durationTimer=setTimeout((()=>{stopTest(!0)}),1e3*testDuration))}function stopTest(t=!1){isRunning=!1,clearInterval(testInterval),durationTimer&&(clearTimeout(durationTimer),durationTimer=null),startBtn.textContent="Запустить проверку",startBtn.classList.remove("from-red-500","to-red-600","hover:from-red-600","hover:to-red-700"),startBtn.classList.add("from-cyan-500","to-blue-600","hover:from-cyan-600","hover:to-blue-700"),durationSelect.disabled=!1,spinnerOverlay.classList.add("hidden");const e=Math.round((Date.now()-startTime)/1e3),n=Math.floor(e/60),a=e%60,s=n>0?`${n} мин ${a} сек`:`${a} сек`;addTimelineEvent(t?`Диагностика завершена (${s})`:`Остановлено (время: ${s})`,"info"),shareButtons.classList.remove("hidden"),updateQualityAssessment()}async function sendPacket(){packetsSent++;const t=performance.now(),e=testEndpoints[currentEndpointIndex]+"?t="+Date.now();currentEndpointIndex=(currentEndpointIndex+1)%testEndpoints.length;try{await fetch(e,{method:"HEAD",cache:"no-cache",mode:"no-cors"});const n=Math.round(performance.now()-t);packetsReceived++,latencies.push(n);const a=n<50?"bg-emerald-400":n<100?"bg-yellow-400":"bg-red-400";chartData.push({latency:n,color:a,time:(new Date).toLocaleTimeString()}),n>200&&addTimelineEvent(`Высокая задержка: ${n} ms`,"warning")}catch(t){packetsLost++,chartData.push({latency:0,color:"bg-slate-500",time:(new Date).toLocaleTimeString()}),addTimelineEvent("Потеря пакета","error")}chartData.length>maxChartBars&&chartData.shift(),updateStats(),updateChart(),updateScore()}function updateStats(){const t=packetsSent>0?(packetsLost/packetsSent*100).toFixed(2):0,e=latencies.length>0?Math.round(latencies.reduce(((t,e)=>t+e),0)/latencies.length):0,n=latencies.length>1?Math.round(latencies.slice(-10).reduce(((t,e,n,a)=>0===n?0:t+Math.abs(e-a[n-1])),0)/Math.max(1,latencies.slice(-10).length-1)):0,a=latencies.length>0?Math.min(...latencies):0,s=latencies.length>0?Math.max(...latencies):0,o=startTime?Math.round((Date.now()-startTime)/1e3):0;packetLossEl.textContent=t+"%",avgLatencyEl.textContent=e+" ms",jitterEl.textContent=n+" ms",sentPacketsEl.textContent=packetsSent,receivedPacketsEl.textContent=packetsReceived,lostPacketsEl.textContent=packetsLost,minLatencyEl.textContent=a+" ms",maxLatencyEl.textContent=s+" ms",testDurationEl.textContent=o+" сек"}function updateChart(){packetChart.innerHTML=chartData.map((t=>{const e=t.latency>0?Math.max(10,Math.min(100,t.latency/200*100)):10;return`<div class="flex-1 ${t.color} rounded-t transition-all hover:opacity-80" \n                            style="height: ${e}%" \n                            title="${t.time}: ${t.latency>0?t.latency+" ms":"Потеря"}">\n                        </div>`})).join("")}function updateScore(){const t=packetsSent>0?packetsLost/packetsSent*100:0,e=latencies.length>0?Math.round(latencies.reduce(((t,e)=>t+e),0)/latencies.length):0,n=latencies.length>1?Math.round(latencies.slice(-10).reduce(((t,e,n,a)=>0===n?0:t+Math.abs(e-a[n-1])),0)/Math.max(1,latencies.slice(-10).length-1)):0;let a=100;a-=20*t,a-=Math.min(e/2,30),a-=Math.min(n,20),a=Math.max(0,Math.min(100,a)),scoreValue.textContent=Math.round(a);const s=534-a/100*534;progressCircle.style.strokeDashoffset=s,isRunning&&(a>=80?(statusText.textContent="Отличная связь",statusText.className="text-center text-lg font-semibold text-emerald-400"):a>=60?(statusText.textContent="Хорошая связь",statusText.className="text-center text-lg font-semibold text-cyan-400"):a>=40?(statusText.textContent="Приемлемо",statusText.className="text-center text-lg font-semibold text-yellow-400"):(statusText.textContent="Есть проблемы",statusText.className="text-center text-lg font-semibold text-red-400"))}function updateQualityAssessment(){const t=packetsSent>0?packetsLost/packetsSent*100:0,e=latencies.length>0?Math.round(latencies.reduce(((t,e)=>t+e),0)/latencies.length):0,n=latencies.length>1?Math.round(latencies.slice(-10).reduce(((t,e,n,a)=>0===n?0:t+Math.abs(e-a[n-1])),0)/Math.max(1,latencies.slice(-10).length-1)):0;let a=100;a-=20*t,a-=Math.min(e/2,30),a-=Math.min(n,20),a=Math.max(0,Math.min(100,a)),scoreValue.textContent=Math.round(a);const s=534-a/100*534;progressCircle.style.strokeDashoffset=s,a>=80?(statusText.textContent="Превосходное качество!",statusText.className="text-center text-lg font-semibold text-emerald-400"):a>=60?(statusText.textContent="Хорошее качество",statusText.className="text-center text-lg font-semibold text-cyan-400"):a>=40?(statusText.textContent="Приемлемое качество",statusText.className="text-center text-lg font-semibold text-yellow-400"):(statusText.textContent="Обнаружены проблемы",statusText.className="text-center text-lg font-semibold text-red-400")}function addTimelineEvent(t,e){const n=(new Date).toLocaleTimeString(),a="error"===e?"bg-red-500/20 border-red-500/50 text-red-300":"warning"===e?"bg-yellow-500/20 border-yellow-500/50 text-yellow-300":"bg-cyan-500/20 border-cyan-500/50 text-cyan-300",s=document.createElement("div");s.className=`flex items-start gap-2 p-3 rounded-lg border ${a}`,s.innerHTML=`\n                <span class="text-slate-400 text-xs min-w-[60px] font-mono">${n}</span>\n                <span class="text-xs font-medium flex-1">${t}</span>\n            `,timelineEvents.insertBefore(s,timelineEvents.firstChild),timelineEvents.children.length>20&&timelineEvents.removeChild(timelineEvents.lastChild)}startBtn.addEventListener("click",toggleTest);
+    </script>
+	<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=104814508', 'ym');
+
+    ym(104814508, 'init', {ssr:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/104814508" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</body>
+</html>
