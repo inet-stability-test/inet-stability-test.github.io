@@ -422,7 +422,420 @@
         </div>
     </footer>
 	<script>
-let isRunning=!1,startTime=null,packetsSent=0,packetsReceived=0,packetsLost=0,latencies=[],testInterval=null,chartData=[],testDuration=60,durationTimer=null;const maxChartBars=60,testEndpoints=["https://github.com/favicon.ico","https://1.1.1.1/favicon.ico","https://yandex.ru/favicon.ico"];let currentEndpointIndex=0;const startBtn=document.getElementById("startBtn"),durationSelect=document.getElementById("durationSelect"),statusText=document.getElementById("statusText"),scoreValue=document.getElementById("scoreValue"),progressCircle=document.getElementById("progressCircle"),spinnerOverlay=document.getElementById("spinnerOverlay"),packetLossEl=document.getElementById("packetLoss"),avgLatencyEl=document.getElementById("avgLatency"),jitterEl=document.getElementById("jitter"),sentPacketsEl=document.getElementById("sentPackets"),receivedPacketsEl=document.getElementById("receivedPackets"),lostPacketsEl=document.getElementById("lostPackets"),minLatencyEl=document.getElementById("minLatency"),maxLatencyEl=document.getElementById("maxLatency"),testDurationEl=document.getElementById("testDuration"),packetChart=document.getElementById("packetChart"),timeline=document.getElementById("timeline"),timelineEvents=document.getElementById("timelineEvents"),shareButtons=document.getElementById("shareButtons");function getShareURL(){return`https://inet-stability-test.github.io/?loss=${packetsSent>0?(packetsLost/packetsSent*100).toFixed(2):0}&latency=${latencies.length>0?Math.round(latencies.reduce(((t,e)=>t+e),0)/latencies.length):0}&jitter=${latencies.length>1?Math.round(latencies.slice(-10).reduce(((t,e,n,a)=>0===n?0:t+Math.abs(e-a[n-1])),0)/Math.max(1,latencies.slice(-10).length-1)):0}`}function shareToTelegram(){const t=getShareURL(),e=`Проверил стабильность интернета:\nПотери: ${document.getElementById("packetLoss").textContent}\nЗадержка: ${document.getElementById("avgLatency").textContent}\nДжиттер: ${document.getElementById("jitter").textContent}`;window.open(`https://t.me/share/url?url=${encodeURIComponent(t)}&text=${encodeURIComponent(e)}`,"_blank")}function shareToVK(){const t=getShareURL(),e=`Тест стабильности интернета: ${document.getElementById("packetLoss").textContent} потери, ${document.getElementById("avgLatency").textContent} задержка`;window.open(`https://vk.com/share.php?url=${encodeURIComponent(t)}&title=${encodeURIComponent(e)}`,"_blank")}function shareToWhatsApp(){const t=getShareURL(),e=`Проверил стабильность интернета:\nПотери: ${document.getElementById("packetLoss").textContent}\nЗадержка: ${document.getElementById("avgLatency").textContent}\nДжиттер: ${document.getElementById("jitter").textContent}\n${t}`;window.open(`https://wa.me/?text=${encodeURIComponent(e)}`,"_blank")}function shareToOK(){const t=getShareURL(),e=`Проверил стабильность интернета:\nПотери: ${document.getElementById("packetLoss").textContent}\nЗадержка: ${document.getElementById("avgLatency").textContent}\nДжиттер: ${document.getElementById("jitter").textContent}`;window.open(`https://connect.ok.ru/offer?url=${encodeURIComponent(t)}&text=${encodeURIComponent(e)}`,"_blank")}function toggleTest(){isRunning?stopTest():startTest()}function startTest(){isRunning=!0,startTime=Date.now(),packetsSent=0,packetsReceived=0,packetsLost=0,latencies=[],chartData=[],testDuration=parseInt(durationSelect.value),startBtn.textContent="Остановить",startBtn.classList.remove("from-cyan-500","to-blue-600","hover:from-cyan-600","hover:to-blue-700"),startBtn.classList.add("from-red-500","to-red-600","hover:from-red-600","hover:to-red-700"),durationSelect.disabled=!0,statusText.textContent="Анализ соединения...",statusText.className="text-center text-lg font-semibold text-cyan-400",spinnerOverlay.classList.remove("hidden"),timeline.classList.remove("hidden"),timelineEvents.innerHTML="",shareButtons.classList.add("hidden"),addTimelineEvent("Запуск диагностики","info"),testInterval=setInterval(sendPacket,1e3),testDuration>0&&(durationTimer=setTimeout((()=>{stopTest(!0)}),1e3*testDuration))}function stopTest(t=!1){isRunning=!1,clearInterval(testInterval),durationTimer&&(clearTimeout(durationTimer),durationTimer=null),startBtn.textContent="Запустить проверку",startBtn.classList.remove("from-red-500","to-red-600","hover:from-red-600","hover:to-red-700"),startBtn.classList.add("from-cyan-500","to-blue-600","hover:from-cyan-600","hover:to-blue-700"),durationSelect.disabled=!1,spinnerOverlay.classList.add("hidden");const e=Math.round((Date.now()-startTime)/1e3),n=Math.floor(e/60),a=e%60,s=n>0?`${n} мин ${a} сек`:`${a} сек`;addTimelineEvent(t?`Диагностика завершена (${s})`:`Остановлено (время: ${s})`,"info"),shareButtons.classList.remove("hidden"),updateQualityAssessment()}async function sendPacket(){packetsSent++;const t=performance.now(),e=testEndpoints[currentEndpointIndex]+"?t="+Date.now();currentEndpointIndex=(currentEndpointIndex+1)%testEndpoints.length;try{await fetch(e,{method:"HEAD",cache:"no-cache",mode:"no-cors"});const n=Math.round(performance.now()-t);packetsReceived++,latencies.push(n);const a=n<50?"bg-emerald-400":n<100?"bg-yellow-400":"bg-red-400";chartData.push({latency:n,color:a,time:(new Date).toLocaleTimeString()}),n>200&&addTimelineEvent(`Высокая задержка: ${n} ms`,"warning")}catch(t){packetsLost++,chartData.push({latency:0,color:"bg-slate-500",time:(new Date).toLocaleTimeString()}),addTimelineEvent("Потеря пакета","error")}chartData.length>maxChartBars&&chartData.shift(),updateStats(),updateChart(),updateScore()}function updateStats(){const t=packetsSent>0?(packetsLost/packetsSent*100).toFixed(2):0,e=latencies.length>0?Math.round(latencies.reduce(((t,e)=>t+e),0)/latencies.length):0,n=latencies.length>1?Math.round(latencies.slice(-10).reduce(((t,e,n,a)=>0===n?0:t+Math.abs(e-a[n-1])),0)/Math.max(1,latencies.slice(-10).length-1)):0,a=latencies.length>0?Math.min(...latencies):0,s=latencies.length>0?Math.max(...latencies):0,o=startTime?Math.round((Date.now()-startTime)/1e3):0;packetLossEl.textContent=t+"%",avgLatencyEl.textContent=e+" ms",jitterEl.textContent=n+" ms",sentPacketsEl.textContent=packetsSent,receivedPacketsEl.textContent=packetsReceived,lostPacketsEl.textContent=packetsLost,minLatencyEl.textContent=a+" ms",maxLatencyEl.textContent=s+" ms",testDurationEl.textContent=o+" сек"}function updateChart(){packetChart.innerHTML=chartData.map((t=>{const e=t.latency>0?Math.max(10,Math.min(100,t.latency/200*100)):10;return`<div class="flex-1 ${t.color} rounded-t transition-all hover:opacity-80" \n                            style="height: ${e}%" \n                            title="${t.time}: ${t.latency>0?t.latency+" ms":"Потеря"}">\n                        </div>`})).join("")}function updateScore(){const t=packetsSent>0?packetsLost/packetsSent*100:0,e=latencies.length>0?Math.round(latencies.reduce(((t,e)=>t+e),0)/latencies.length):0,n=latencies.length>1?Math.round(latencies.slice(-10).reduce(((t,e,n,a)=>0===n?0:t+Math.abs(e-a[n-1])),0)/Math.max(1,latencies.slice(-10).length-1)):0;let a=100;a-=20*t,a-=Math.min(e/2,30),a-=Math.min(n,20),a=Math.max(0,Math.min(100,a)),scoreValue.textContent=Math.round(a);const s=534-a/100*534;progressCircle.style.strokeDashoffset=s,isRunning&&(a>=80?(statusText.textContent="Отличная связь",statusText.className="text-center text-lg font-semibold text-emerald-400"):a>=60?(statusText.textContent="Хорошая связь",statusText.className="text-center text-lg font-semibold text-cyan-400"):a>=40?(statusText.textContent="Приемлемо",statusText.className="text-center text-lg font-semibold text-yellow-400"):(statusText.textContent="Есть проблемы",statusText.className="text-center text-lg font-semibold text-red-400"))}function updateQualityAssessment(){const t=packetsSent>0?packetsLost/packetsSent*100:0,e=latencies.length>0?Math.round(latencies.reduce(((t,e)=>t+e),0)/latencies.length):0,n=latencies.length>1?Math.round(latencies.slice(-10).reduce(((t,e,n,a)=>0===n?0:t+Math.abs(e-a[n-1])),0)/Math.max(1,latencies.slice(-10).length-1)):0;let a=100;a-=20*t,a-=Math.min(e/2,30),a-=Math.min(n,20),a=Math.max(0,Math.min(100,a)),scoreValue.textContent=Math.round(a);const s=534-a/100*534;progressCircle.style.strokeDashoffset=s,a>=80?(statusText.textContent="Превосходное качество!",statusText.className="text-center text-lg font-semibold text-emerald-400"):a>=60?(statusText.textContent="Хорошее качество",statusText.className="text-center text-lg font-semibold text-cyan-400"):a>=40?(statusText.textContent="Приемлемое качество",statusText.className="text-center text-lg font-semibold text-yellow-400"):(statusText.textContent="Обнаружены проблемы",statusText.className="text-center text-lg font-semibold text-red-400")}function addTimelineEvent(t,e){const n=(new Date).toLocaleTimeString(),a="error"===e?"bg-red-500/20 border-red-500/50 text-red-300":"warning"===e?"bg-yellow-500/20 border-yellow-500/50 text-yellow-300":"bg-cyan-500/20 border-cyan-500/50 text-cyan-300",s=document.createElement("div");s.className=`flex items-start gap-2 p-3 rounded-lg border ${a}`,s.innerHTML=`\n                <span class="text-slate-400 text-xs min-w-[60px] font-mono">${n}</span>\n                <span class="text-xs font-medium flex-1">${t}</span>\n            `,timelineEvents.insertBefore(s,timelineEvents.firstChild),timelineEvents.children.length>20&&timelineEvents.removeChild(timelineEvents.lastChild)}startBtn.addEventListener("click",toggleTest);
+	let isRunning = false;
+let startTime = null;
+let packetsSent = 0;
+let packetsReceived = 0;
+let packetsLost = 0;
+let latencies = [];
+let testInterval = null;
+let chartData = [];
+let testDuration = 60;
+let durationTimer = null;
+
+const maxChartBars = 60;
+
+// Оптимизированные endpoints для России
+const testEndpoints = [
+    "https://vk.com/favicon.ico",
+    "https://yandex.ru/favicon.ico",
+    "https://mail.ru/favicon.ico",
+    "https://cloudflare.com/favicon.ico",
+    "https://github.com/favicon.ico"
+];
+
+let currentEndpointIndex = 0;
+
+// DOM elements
+const startBtn = document.getElementById("startBtn");
+const durationSelect = document.getElementById("durationSelect");
+const statusText = document.getElementById("statusText");
+const scoreValue = document.getElementById("scoreValue");
+const progressCircle = document.getElementById("progressCircle");
+const spinnerOverlay = document.getElementById("spinnerOverlay");
+const packetLossEl = document.getElementById("packetLoss");
+const avgLatencyEl = document.getElementById("avgLatency");
+const jitterEl = document.getElementById("jitter");
+const sentPacketsEl = document.getElementById("sentPackets");
+const receivedPacketsEl = document.getElementById("receivedPackets");
+const lostPacketsEl = document.getElementById("lostPackets");
+const minLatencyEl = document.getElementById("minLatency");
+const maxLatencyEl = document.getElementById("maxLatency");
+const testDurationEl = document.getElementById("testDuration");
+const packetChart = document.getElementById("packetChart");
+const timeline = document.getElementById("timeline");
+const timelineEvents = document.getElementById("timelineEvents");
+const shareButtons = document.getElementById("shareButtons");
+
+// Проверка параметров URL при загрузке страницы
+window.addEventListener('DOMContentLoaded', () => {
+    checkURLParams();
+});
+
+function checkURLParams() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const loss = urlParams.get('loss');
+    const latency = urlParams.get('latency');
+    const jitter = urlParams.get('jitter');
+    
+    if (loss !== null && latency !== null && jitter !== null) {
+        displaySharedResults(parseFloat(loss), parseInt(latency), parseInt(jitter));
+    }
+}
+
+function displaySharedResults(loss, latency, jitter) {
+    // Устанавливаем значения из URL
+    packetLossEl.textContent = loss.toFixed(2) + "%";
+    avgLatencyEl.textContent = latency + " ms";
+    jitterEl.textContent = jitter + " ms";
+    
+    // Рассчитываем оценку
+    let score = 100;
+    score -= loss * 20;
+    score -= Math.min(latency / 2, 30);
+    score -= Math.min(jitter, 20);
+    score = Math.max(0, Math.min(100, score));
+    
+    scoreValue.textContent = Math.round(score);
+    
+    const circumference = 534;
+    const offset = circumference - (score / 100) * circumference;
+    progressCircle.style.strokeDashoffset = offset;
+    
+    // Устанавливаем статус
+    if (score >= 80) {
+        statusText.textContent = "Превосходное качество!";
+        statusText.className = "text-center text-lg font-semibold text-emerald-400";
+    } else if (score >= 60) {
+        statusText.textContent = "Хорошее качество";
+        statusText.className = "text-center text-lg font-semibold text-cyan-400";
+    } else if (score >= 40) {
+        statusText.textContent = "Приемлемое качество";
+        statusText.className = "text-center text-lg font-semibold text-yellow-400";
+    } else {
+        statusText.textContent = "Обнаружены проблемы";
+        statusText.className = "text-center text-lg font-semibold text-red-400";
+    }
+    
+    // Показываем кнопки шеринга
+    shareButtons.classList.remove("hidden");
+    
+    // Добавляем событие в таймлайн
+    timeline.classList.remove("hidden");
+    addTimelineEvent("Загружены результаты теста из ссылки", "info");
+    
+    // Блокируем кнопку запуска теста до сброса
+    startBtn.textContent = "Просмотр результатов";
+    startBtn.disabled = true;
+    startBtn.classList.add("opacity-50", "cursor-not-allowed");
+    
+    // Добавляем кнопку для запуска нового теста
+    setTimeout(() => {
+        startBtn.textContent = "Запустить новую проверку";
+        startBtn.disabled = false;
+        startBtn.classList.remove("opacity-50", "cursor-not-allowed");
+    }, 2000);
+}
+
+function getShareURL() {
+    const loss = packetsSent > 0 ? (packetsLost / packetsSent * 100).toFixed(2) : 0;
+    const avgLatency = latencies.length > 0 
+        ? Math.round(latencies.reduce((sum, val) => sum + val, 0) / latencies.length) 
+        : 0;
+    const jitter = latencies.length > 1 
+        ? Math.round(latencies.slice(-10).reduce((sum, val, idx, arr) => {
+            return idx === 0 ? 0 : sum + Math.abs(val - arr[idx - 1]);
+        }, 0) / Math.max(1, latencies.slice(-10).length - 1))
+        : 0;
+    
+    return `${window.location.origin}${window.location.pathname}?loss=${loss}&latency=${avgLatency}&jitter=${jitter}`;
+}
+
+function shareToTelegram() {
+    const url = getShareURL();
+    const text = `Проверил стабильность интернета:\nПотери: ${document.getElementById('packetLoss').textContent}\nЗадержка: ${document.getElementById('avgLatency').textContent}\nДжиттер: ${document.getElementById('jitter').textContent}`;
+    window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank');
+}
+
+function shareToVK() {
+    const url = getShareURL();
+    const title = `Тест стабильности интернета: ${document.getElementById('packetLoss').textContent} потери, ${document.getElementById('avgLatency').textContent} задержка`;
+    window.open(`https://vk.com/share.php?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`, '_blank');
+}
+
+function shareToWhatsApp() {
+    const url = getShareURL();
+    const text = `Проверил стабильность интернета:\nПотери: ${document.getElementById('packetLoss').textContent}\nЗадержка: ${document.getElementById('avgLatency').textContent}\nДжиттер: ${document.getElementById('jitter').textContent}\n${url}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+}
+
+function shareToOK() {
+    const url = getShareURL();
+    const text = `Проверил стабильность интернета:\nПотери: ${document.getElementById('packetLoss').textContent}\nЗадержка: ${document.getElementById('avgLatency').textContent}\nДжиттер: ${document.getElementById('jitter').textContent}`;
+    window.open(`https://connect.ok.ru/offer?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank');
+}
+
+function toggleTest() {
+    if (isRunning) {
+        stopTest();
+    } else {
+        startTest();
+    }
+}
+
+function startTest() {
+    // Сброс данных если открыт shared результат
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('loss')) {
+        window.history.pushState({}, '', window.location.pathname);
+    }
+    
+    isRunning = true;
+    startTime = Date.now();
+    packetsSent = 0;
+    packetsReceived = 0;
+    packetsLost = 0;
+    latencies = [];
+    chartData = [];
+    testDuration = parseInt(durationSelect.value);
+    
+    startBtn.textContent = "Остановить";
+    startBtn.classList.remove("from-cyan-500", "to-blue-600", "hover:from-cyan-600", "hover:to-blue-700");
+    startBtn.classList.add("from-red-500", "to-red-600", "hover:from-red-600", "hover:to-red-700");
+    durationSelect.disabled = true;
+    
+    statusText.textContent = "Анализ соединения...";
+    statusText.className = "text-center text-lg font-semibold text-cyan-400";
+    spinnerOverlay.classList.remove("hidden");
+    timeline.classList.remove("hidden");
+    timelineEvents.innerHTML = "";
+    shareButtons.classList.add("hidden");
+    
+    addTimelineEvent("Запуск диагностики", "info");
+    
+    testInterval = setInterval(sendPacket, 1000);
+    
+    if (testDuration > 0) {
+        durationTimer = setTimeout(() => {
+            stopTest(true);
+        }, testDuration * 1000);
+    }
+}
+
+function stopTest(autoStop = false) {
+    isRunning = false;
+    clearInterval(testInterval);
+    
+    if (durationTimer) {
+        clearTimeout(durationTimer);
+        durationTimer = null;
+    }
+    
+    startBtn.textContent = "Запустить проверку";
+    startBtn.classList.remove("from-red-500", "to-red-600", "hover:from-red-600", "hover:to-red-700");
+    startBtn.classList.add("from-cyan-500", "to-blue-600", "hover:from-cyan-600", "hover:to-blue-700");
+    durationSelect.disabled = false;
+    spinnerOverlay.classList.add("hidden");
+    
+    const elapsed = Math.round((Date.now() - startTime) / 1000);
+    const minutes = Math.floor(elapsed / 60);
+    const seconds = elapsed % 60;
+    const timeStr = minutes > 0 ? `${minutes} мин ${seconds} сек` : `${seconds} сек`;
+    
+    addTimelineEvent(
+        autoStop ? `Диагностика завершена (${timeStr})` : `Остановлено (время: ${timeStr})`,
+        "info"
+    );
+    
+    shareButtons.classList.remove("hidden");
+    updateQualityAssessment();
+}
+
+async function sendPacket() {
+    packetsSent++;
+    const startTime = performance.now();
+    const endpoint = testEndpoints[currentEndpointIndex] + "?t=" + Date.now();
+    currentEndpointIndex = (currentEndpointIndex + 1) % testEndpoints.length;
+    
+    try {
+        await fetch(endpoint, {
+            method: "HEAD",
+            cache: "no-cache",
+            mode: "no-cors"
+        });
+        
+        const latency = Math.round(performance.now() - startTime);
+        packetsReceived++;
+        latencies.push(latency);
+        
+        const color = latency < 50 ? "bg-emerald-400" : latency < 100 ? "bg-yellow-400" : "bg-red-400";
+        chartData.push({
+            latency: latency,
+            color: color,
+            time: new Date().toLocaleTimeString()
+        });
+        
+        if (latency > 200) {
+            addTimelineEvent(`Высокая задержка: ${latency} ms`, "warning");
+        }
+    } catch (error) {
+        packetsLost++;
+        chartData.push({
+            latency: 0,
+            color: "bg-slate-500",
+            time: new Date().toLocaleTimeString()
+        });
+        addTimelineEvent("Потеря пакета", "error");
+    }
+    
+    if (chartData.length > maxChartBars) {
+        chartData.shift();
+    }
+    
+    updateStats();
+    updateChart();
+    updateScore();
+}
+
+function updateStats() {
+    const packetLoss = packetsSent > 0 ? (packetsLost / packetsSent * 100).toFixed(2) : 0;
+    const avgLatency = latencies.length > 0 
+        ? Math.round(latencies.reduce((sum, val) => sum + val, 0) / latencies.length) 
+        : 0;
+    const jitter = latencies.length > 1 
+        ? Math.round(latencies.slice(-10).reduce((sum, val, idx, arr) => {
+            return idx === 0 ? 0 : sum + Math.abs(val - arr[idx - 1]);
+        }, 0) / Math.max(1, latencies.slice(-10).length - 1))
+        : 0;
+    const minLatency = latencies.length > 0 ? Math.min(...latencies) : 0;
+    const maxLatency = latencies.length > 0 ? Math.max(...latencies) : 0;
+    const elapsed = startTime ? Math.round((Date.now() - startTime) / 1000) : 0;
+    
+    packetLossEl.textContent = packetLoss + "%";
+    avgLatencyEl.textContent = avgLatency + " ms";
+    jitterEl.textContent = jitter + " ms";
+    sentPacketsEl.textContent = packetsSent;
+    receivedPacketsEl.textContent = packetsReceived;
+    lostPacketsEl.textContent = packetsLost;
+    minLatencyEl.textContent = minLatency + " ms";
+    maxLatencyEl.textContent = maxLatency + " ms";
+    testDurationEl.textContent = elapsed + " сек";
+}
+
+function updateChart() {
+    packetChart.innerHTML = chartData.map(data => {
+        const height = data.latency > 0 
+            ? Math.max(10, Math.min(100, (data.latency / 200) * 100)) 
+            : 10;
+        
+        return `<div class="flex-1 ${data.color} rounded-t transition-all hover:opacity-80" 
+                            style="height: ${height}%" 
+                            title="${data.time}: ${data.latency > 0 ? data.latency + ' ms' : 'Потеря'}">
+                        </div>`;
+    }).join('');
+}
+
+function updateScore() {
+    const packetLoss = packetsSent > 0 ? (packetsLost / packetsSent * 100) : 0;
+    const avgLatency = latencies.length > 0 
+        ? Math.round(latencies.reduce((sum, val) => sum + val, 0) / latencies.length) 
+        : 0;
+    const jitter = latencies.length > 1 
+        ? Math.round(latencies.slice(-10).reduce((sum, val, idx, arr) => {
+            return idx === 0 ? 0 : sum + Math.abs(val - arr[idx - 1]);
+        }, 0) / Math.max(1, latencies.slice(-10).length - 1))
+        : 0;
+    
+    let score = 100;
+    score -= packetLoss * 20;
+    score -= Math.min(avgLatency / 2, 30);
+    score -= Math.min(jitter, 20);
+    score = Math.max(0, Math.min(100, score));
+    
+    scoreValue.textContent = Math.round(score);
+    
+    const circumference = 534;
+    const offset = circumference - (score / 100) * circumference;
+    progressCircle.style.strokeDashoffset = offset;
+    
+    if (isRunning) {
+        if (score >= 80) {
+            statusText.textContent = "Отличная связь";
+            statusText.className = "text-center text-lg font-semibold text-emerald-400";
+        } else if (score >= 60) {
+            statusText.textContent = "Хорошая связь";
+            statusText.className = "text-center text-lg font-semibold text-cyan-400";
+        } else if (score >= 40) {
+            statusText.textContent = "Приемлемо";
+            statusText.className = "text-center text-lg font-semibold text-yellow-400";
+        } else {
+            statusText.textContent = "Есть проблемы";
+            statusText.className = "text-center text-lg font-semibold text-red-400";
+        }
+    }
+}
+
+function updateQualityAssessment() {
+    const packetLoss = packetsSent > 0 ? (packetsLost / packetsSent * 100) : 0;
+    const avgLatency = latencies.length > 0 
+        ? Math.round(latencies.reduce((sum, val) => sum + val, 0) / latencies.length) 
+        : 0;
+    const jitter = latencies.length > 1 
+        ? Math.round(latencies.slice(-10).reduce((sum, val, idx, arr) => {
+            return idx === 0 ? 0 : sum + Math.abs(val - arr[idx - 1]);
+        }, 0) / Math.max(1, latencies.slice(-10).length - 1))
+        : 0;
+    
+    let score = 100;
+    score -= packetLoss * 20;
+    score -= Math.min(avgLatency / 2, 30);
+    score -= Math.min(jitter, 20);
+    score = Math.max(0, Math.min(100, score));
+    
+    scoreValue.textContent = Math.round(score);
+    
+    const circumference = 534;
+    const offset = circumference - (score / 100) * circumference;
+    progressCircle.style.strokeDashoffset = offset;
+    
+    if (score >= 80) {
+        statusText.textContent = "Превосходное качество!";
+        statusText.className = "text-center text-lg font-semibold text-emerald-400";
+    } else if (score >= 60) {
+        statusText.textContent = "Хорошее качество";
+        statusText.className = "text-center text-lg font-semibold text-cyan-400";
+    } else if (score >= 40) {
+        statusText.textContent = "Приемлемое качество";
+        statusText.className = "text-center text-lg font-semibold text-yellow-400";
+    } else {
+        statusText.textContent = "Обнаружены проблемы";
+        statusText.className = "text-center text-lg font-semibold text-red-400";
+    }
+}
+
+function addTimelineEvent(message, type) {
+    const time = new Date().toLocaleTimeString();
+    const colorClass = type === "error" 
+        ? "bg-red-500/20 border-red-500/50 text-red-300"
+        : type === "warning"
+        ? "bg-yellow-500/20 border-yellow-500/50 text-yellow-300"
+        : "bg-cyan-500/20 border-cyan-500/50 text-cyan-300";
+    
+    const eventDiv = document.createElement('div');
+    eventDiv.className = `flex items-start gap-2 p-3 rounded-lg border ${colorClass}`;
+    eventDiv.innerHTML = `
+                <span class="text-slate-400 text-xs min-w-[60px] font-mono">${time}</span>
+                <span class="text-xs font-medium flex-1">${message}</span>
+            `;
+    
+    timelineEvents.insertBefore(eventDiv, timelineEvents.firstChild);
+    
+    if (timelineEvents.children.length > 20) {
+        timelineEvents.removeChild(timelineEvents.lastChild);
+    }
+}
+
+startBtn.addEventListener("click", toggleTest);
     </script>
 	<!-- Yandex.Metrika counter -->
 <script type="text/javascript">
