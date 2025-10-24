@@ -502,19 +502,38 @@ function displaySharedResults(loss, latency, jitter) {
     const offset = circumference - (score / 100) * circumference;
     progressCircle.style.strokeDashoffset = offset;
     
-    // Устанавливаем статус
-    if (score >= 80) {
-        statusText.textContent = "Превосходное качество!";
-        statusText.className = "text-center text-lg font-semibold text-emerald-400";
+	if (score >= 80) {
+        statusText.innerHTML = `
+            <div class="text-emerald-400 font-bold mb-1">Превосходное качество!</div>
+            <div class="text-xs text-slate-300 leading-relaxed">
+                Идеально для онлайн-игр, видеоконференций, стриминга, веб-сёрфинга и просмотра видео
+            </div>
+        `;
+        statusText.className = "text-center text-lg font-semibold";
     } else if (score >= 60) {
-        statusText.textContent = "Хорошее качество";
-        statusText.className = "text-center text-lg font-semibold text-cyan-400";
+        statusText.innerHTML = `
+            <div class="text-cyan-400 font-bold mb-1">Хорошее качество</div>
+            <div class="text-xs text-slate-300 leading-relaxed">
+                Отлично для видеоконференций, стриминга, веб-сёрфинга и просмотра видео. Возможны редкие задержки в онлайн-играх
+            </div>
+        `;
+        statusText.className = "text-center text-lg font-semibold";
     } else if (score >= 40) {
-        statusText.textContent = "Приемлемое качество";
-        statusText.className = "text-center text-lg font-semibold text-yellow-400";
+        statusText.innerHTML = `
+            <div class="text-yellow-400 font-bold mb-1">Приемлемое качество</div>
+            <div class="text-xs text-slate-300 leading-relaxed">
+                Подходит для веб-сёрфинга и просмотра видео. Могут быть задержки в онлайн-играх, видеоконференциях и стриминге
+            </div>
+        `;
+        statusText.className = "text-center text-lg font-semibold";
     } else {
-        statusText.textContent = "Обнаружены проблемы";
-        statusText.className = "text-center text-lg font-semibold text-red-400";
+        statusText.innerHTML = `
+            <div class="text-red-400 font-bold mb-1">Обнаружены проблемы</div>
+            <div class="text-xs text-slate-300 leading-relaxed">
+                Возможны трудности во всех сценариях использования. Рекомендуется диагностика подключения
+            </div>
+        `;
+        statusText.className = "text-center text-lg font-semibold";
     }
     
     // Показываем кнопки шеринга
@@ -759,20 +778,32 @@ function updateScore() {
     progressCircle.style.strokeDashoffset = offset;
     
     if (isRunning) {
-        if (score >= 80) {
-            statusText.textContent = "Отличная связь";
-            statusText.className = "text-center text-lg font-semibold text-emerald-400";
-        } else if (score >= 60) {
-            statusText.textContent = "Хорошая связь";
-            statusText.className = "text-center text-lg font-semibold text-cyan-400";
-        } else if (score >= 40) {
-            statusText.textContent = "Приемлемо";
-            statusText.className = "text-center text-lg font-semibold text-yellow-400";
-        } else {
-            statusText.textContent = "Есть проблемы";
-            statusText.className = "text-center text-lg font-semibold text-red-400";
-        }
-    }
+		if (score >= 80) {
+			statusText.innerHTML = `
+				<div class="text-emerald-400 font-bold mb-1">Отличная связь</div>
+				<div class="text-xs text-slate-300">Идеально для любых задач</div>
+			`;
+			statusText.className = "text-center text-lg font-semibold";
+		} else if (score >= 60) {
+			statusText.innerHTML = `
+				<div class="text-cyan-400 font-bold mb-1">Хорошая связь</div>
+				<div class="text-xs text-slate-300">Подходит для большинства задач</div>
+			`;
+			statusText.className = "text-center text-lg font-semibold";
+		} else if (score >= 40) {
+			statusText.innerHTML = `
+				<div class="text-yellow-400 font-bold mb-1">Приемлемо</div>
+				<div class="text-xs text-slate-300">Возможны задержки в играх и стриминге</div>
+			`;
+			statusText.className = "text-center text-lg font-semibold";
+		} else {
+			statusText.innerHTML = `
+				<div class="text-red-400 font-bold mb-1">Есть проблемы</div>
+				<div class="text-xs text-slate-300">Требуется диагностика</div>
+			`;
+			statusText.className = "text-center text-lg font-semibold";
+		}
+	}
 }
 
 function updateQualityAssessment() {
@@ -799,18 +830,38 @@ function updateQualityAssessment() {
     progressCircle.style.strokeDashoffset = offset;
     
     if (score >= 80) {
-        statusText.textContent = "Превосходное качество!";
-        statusText.className = "text-center text-lg font-semibold text-emerald-400";
-    } else if (score >= 60) {
-        statusText.textContent = "Хорошее качество";
-        statusText.className = "text-center text-lg font-semibold text-cyan-400";
-    } else if (score >= 40) {
-        statusText.textContent = "Приемлемое качество";
-        statusText.className = "text-center text-lg font-semibold text-yellow-400";
-    } else {
-        statusText.textContent = "Обнаружены проблемы";
-        statusText.className = "text-center text-lg font-semibold text-red-400";
-    }
+		statusText.innerHTML = `
+			<div class="text-emerald-400 font-bold mb-1">Превосходное качество!</div>
+			<div class="text-xs text-slate-300 leading-relaxed">
+				Идеально для онлайн-игр, видеоконференций, стриминга, веб-сёрфинга и просмотра видео
+			</div>
+		`;
+		statusText.className = "text-center text-lg font-semibold";
+	} else if (score >= 60) {
+		statusText.innerHTML = `
+			<div class="text-cyan-400 font-bold mb-1">Хорошее качество</div>
+			<div class="text-xs text-slate-300 leading-relaxed">
+				Отлично для видеоконференций, стриминга, веб-сёрфинга и просмотра видео. Возможны редкие задержки в онлайн-играх
+			</div>
+		`;
+		statusText.className = "text-center text-lg font-semibold";
+	} else if (score >= 40) {
+		statusText.innerHTML = `
+			<div class="text-yellow-400 font-bold mb-1">Приемлемое качество</div>
+			<div class="text-xs text-slate-300 leading-relaxed">
+				Подходит для веб-сёрфинга и просмотра видео. Могут быть задержки в онлайн-играх, видеоконференциях и стриминге
+			</div>
+		`;
+		statusText.className = "text-center text-lg font-semibold";
+	} else {
+		statusText.innerHTML = `
+			<div class="text-red-400 font-bold mb-1">Обнаружены проблемы</div>
+			<div class="text-xs text-slate-300 leading-relaxed">
+				Возможны трудности во всех сценариях использования. Рекомендуется диагностика подключения
+			</div>
+		`;
+		statusText.className = "text-center text-lg font-semibold";
+	}
 }
 
 function addTimelineEvent(message, type) {
