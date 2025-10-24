@@ -258,7 +258,7 @@
             <h2 class="text-2xl font-bold text-cyan-300 pt-4">Принцип работы диагностики</h2>
             
             <p class="text-slate-300 leading-relaxed">
-                Система посылает серию запросов к серверам и фиксирует результаты: сколько пакетов дошло, какова задержка ответа. Использую облегченные запросы к стабильным хостам, чтобы не нагружать ваш канал. Каждая проверка забирает всего пару килобайт, так что тест можно крутить хоть полчаса без влияния на другие задачи.
+                Система посылает серию запросов к серверам и фиксирует результаты: сколько пакетов дошло, какова задержка ответа. Использую облегченные запросы к стабильным хостам Вконтакте, Яндекс, Мейл, cloudflare, github, чтобы не нагружать ваш канал. Каждая проверка забирает всего пару килобайт, так что тест можно крутить хоть полчаса без влияния на другие задачи.
             </p>
 
             <p class="text-slate-300 leading-relaxed">
@@ -435,7 +435,6 @@ let durationTimer = null;
 
 const maxChartBars = 60;
 
-// Оптимизированные endpoints для России
 const testEndpoints = [
     "https://vk.com/favicon.ico",
     "https://yandex.ru/favicon.ico",
@@ -446,7 +445,6 @@ const testEndpoints = [
 
 let currentEndpointIndex = 0;
 
-// DOM elements
 const startBtn = document.getElementById("startBtn");
 const durationSelect = document.getElementById("durationSelect");
 const statusText = document.getElementById("statusText");
@@ -467,7 +465,6 @@ const timeline = document.getElementById("timeline");
 const timelineEvents = document.getElementById("timelineEvents");
 const shareButtons = document.getElementById("shareButtons");
 
-// Проверка параметров URL при загрузке страницы
 window.addEventListener('DOMContentLoaded', () => {
     checkURLParams();
 });
@@ -484,12 +481,11 @@ function checkURLParams() {
 }
 
 function displaySharedResults(loss, latency, jitter) {
-    // Устанавливаем значения из URL
+
     packetLossEl.textContent = loss.toFixed(2) + "%";
     avgLatencyEl.textContent = latency + " ms";
     jitterEl.textContent = jitter + " ms";
     
-    // Рассчитываем оценку
     let score = 100;
     score -= loss * 20;
     score -= Math.min(latency / 2, 30);
@@ -536,19 +532,15 @@ function displaySharedResults(loss, latency, jitter) {
         statusText.className = "text-center text-lg font-semibold";
     }
     
-    // Показываем кнопки шеринга
     shareButtons.classList.remove("hidden");
     
-    // Добавляем событие в таймлайн
     timeline.classList.remove("hidden");
     addTimelineEvent("Загружены результаты теста из ссылки", "info");
     
-    // Блокируем кнопку запуска теста до сброса
     startBtn.textContent = "Просмотр результатов";
     startBtn.disabled = true;
     startBtn.classList.add("opacity-50", "cursor-not-allowed");
     
-    // Добавляем кнопку для запуска нового теста
     setTimeout(() => {
         startBtn.textContent = "Запустить новую проверку";
         startBtn.disabled = false;
@@ -603,7 +595,6 @@ function toggleTest() {
 }
 
 function startTest() {
-    // Сброс данных если открыт shared результат
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('loss')) {
         window.history.pushState({}, '', window.location.pathname);
